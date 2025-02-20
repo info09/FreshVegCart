@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\FreshVegCart.Shared\FreshVegCart.Shared.csproj" />
   </ItemGroup>
 
 </Project>
