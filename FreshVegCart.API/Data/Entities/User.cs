@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace FreshVegCart.API.Data.Entities
 {
@@ -22,5 +23,15 @@ namespace FreshVegCart.API.Data.Entities
         public string? Mobile { get; set; }
 
         public ICollection<UserAddress> UserAddresses { get; set; }
+
+        public static User[] GetSeedData()
+        {
+            // Password: Admin@123$
+            User[] userAdmin = [
+            new () { Id = 1, Name = "Admin", Email = $"huytq@ics-p.vn", PasswordHash = "AQAAAAIAAYagAAAAEILS9TM+EK5VrNfit/ylRBluPlqUZf0ZbxOajnXTLKNv+Bo2UPJyKpDkmtL0I5kqBg==", Mobile = "0328478290" },
+            ];
+
+            return userAdmin;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace FreshVegCart.Shared.Dto
 {
-    public interface LoginDto
+    public class LoginDto
     {
         [Required, MaxLength(50)]
         public string Username { get; set; }

@@ -20,6 +20,7 @@ namespace FreshVegCart.API.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Product>().HasData(Product.GetSeedData());
+            modelBuilder.Entity<User>().HasData(User.GetSeedData());
         }
     }
 }

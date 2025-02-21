@@ -5,6 +5,10 @@ using FreshVegCart.Shared.Dto;
 using FreshVegCart.Shared.SeedWorks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace FreshVegCart.API.Services
 {
@@ -12,11 +16,13 @@ namespace FreshVegCart.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher)
+        public AuthService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher, IConfiguration configuration)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _configuration = configuration;
         }
 
         public async Task<ApiResult<LoggedInUser>> LoginAsync(LoginDto dto)
@@ -30,7 +36,7 @@ namespace FreshVegCart.API.Services
                 return ApiResult<LoggedInUser>.Failure("Invalid username or password");
 
             // Generate jwt
-            var jwt = "JWT_TOKEN";
+            var jwt = GenerateString(user);
             var loggedInUser = new LoggedInUser(user.Id, user.Name, user.Email, jwt);
             return ApiResult<LoggedInUser>.Success(loggedInUser);
         }
@@ -60,6 +66,31 @@ namespace FreshVegCart.API.Services
             {
                 return ApiResult.Failure(ex.Message);
             }
+        }
+
+        private string GenerateString(User user)
+        {
+            Claim[] claims = new[]
+            {
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            var secretKey = _configuration.GetValue<string>("Jwt:SecretKey");
+            var securityKey = Encoding.UTF8.GetBytes(secretKey);
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(securityKey), SecurityAlgorithms.HmacSha256);
+            var expireInMinutes = _configuration.GetValue<int>("Jwt:ExpireInMinutes");
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration.GetValue<string>("Jwt:Issuer"),
+                audience: _configuration.GetValue<string>("Jwt:Audience"),
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expireInMinutes),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
