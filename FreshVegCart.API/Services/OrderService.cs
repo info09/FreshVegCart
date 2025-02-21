@@ -37,24 +37,28 @@ namespace FreshVegCart.API.Services
                 }).ToArray());
         }
 
-        public async Task<ApiResult<AddressDto[]>> GetUserOrdersAsync(int userId, int pageIndex, int pageSize)
+        public async Task<ApiResult<OrderDto[]>> GetUserOrdersAsync(int userId, int startIndex, int pageSize)
         {
-            var addresses = await _context.UserAddresses
+            var addresses = await _context.Orders
                 .AsNoTracking()
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(i => i.Id)
-                .Skip((pageIndex - 1) * pageSize)
+                .Skip(startIndex)
                 .Take(pageSize)
-                .Select(i => new AddressDto
+                .Select(i => new OrderDto
                 {
                     Id = i.Id,
                     Address = i.Address,
-                    Name = i.Name,
-                    IsDefault = i.IsDefault
+                    AddressName = i.AddressName,
+                    Date = i.Date,
+                    TotalAmount = i.TotalAmount,
+                    TotalItems = i.TotalItems,
+                    Remarks = i.Remarks,
+                    Status = i.Status
                 })
                 .ToArrayAsync();
 
-            return ApiResult<AddressDto[]>.Success(addresses);
+            return ApiResult<OrderDto[]>.Success(addresses);
         }
 
         public async Task<ApiResult> PlaceOrderAsync(PlaceOrderDto dto, int userId)
