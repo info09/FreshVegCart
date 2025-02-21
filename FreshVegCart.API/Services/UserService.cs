@@ -3,6 +3,7 @@ using FreshVegCart.API.Data.Entities;
 using FreshVegCart.API.Services.Interfaces;
 using FreshVegCart.Shared.Dto;
 using FreshVegCart.Shared.SeedWorks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreshVegCart.API.Services
@@ -10,10 +11,36 @@ namespace FreshVegCart.API.Services
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UserService(ApplicationDbContext context)
+        public UserService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
+        }
+
+        public async Task<ApiResult> ChangePasswordAsync(ChangePasswordDto dto, int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user is null)
+                return ApiResult.Failure("User not found");
+
+            var verifyPassword = _passwordHasher.VerifyHashedPassword(user, dto.CurrentPassword, user.PasswordHash);
+            if(verifyPassword == PasswordVerificationResult.Failed)
+                return ApiResult.Failure("Current password is incorrect");
+
+            user.PasswordHash = _passwordHasher.HashPassword(user, dto.NewPassword);
+            _context.Users.Update(user);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return ApiResult.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResult.Failure(ex.Message);
+            }
         }
 
         public async Task<ApiResult<AddressDto[]>> GetAddressesAsync(int userId) 

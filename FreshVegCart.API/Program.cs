@@ -1,4 +1,8 @@
 using FreshVegCart.API.Data;
+using FreshVegCart.API.Data.Entities;
+using FreshVegCart.API.Services;
+using FreshVegCart.API.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +15,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddTransient<IAuthService, AuthService>()
+    .AddTransient<IOrderService, OrderService>()
+    .AddTransient<IProductService, ProductService>()
+    .AddTransient<IUserService, UserService>()
+    .AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var app = builder.Build();
 
