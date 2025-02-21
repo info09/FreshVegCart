@@ -28,7 +28,7 @@ namespace FreshVegCart.API.Endpoints
                 return Results.Ok(orders);
             }).Produces<ApiResult<OrderDto[]>>().WithName("GetUserOrders");
 
-            endpoints.MapGet("/users/{userId}/orders/{orderId}", async (IOrderService orderService, int userId, int orderId, ClaimsPrincipal claimsPrincipal) =>
+            endpoints.MapGet("/users/{userId}/orders/{orderId}/items", async (IOrderService orderService, int userId, int orderId, ClaimsPrincipal claimsPrincipal) =>
             {
                 if (userId != claimsPrincipal.GetUserId())
                     return Results.Unauthorized();

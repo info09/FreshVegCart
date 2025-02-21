@@ -1,5 +1,22 @@
 ﻿@page "/"
-
+@using FreshVegCart.Apis
+@using FreshVegCart.Shared.Dto
+@inject IProductApi ProductApi
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<ul>
+    @foreach (var item in productDtos)
+    {
+        <li>@item.Name</li>
+    }
+</ul>
+
+@code{
+    ProductDto[] productDtos = [];
+    protected override async Task OnInitializedAsync()
+    {
+        productDtos = await ProductApi.GetProductsAsync();
+    }
+}
