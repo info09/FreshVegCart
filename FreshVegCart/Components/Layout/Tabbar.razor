@@ -1,21 +1,21 @@
 ﻿<div class="tabbar bg-app-primary text-white">
-    <div class="tabbar-item d-flex flex-column">
+    <div class="tabbar-item d-flex flex-column text-app-primary">
         <i class="icon bx bx-home"></i>
         <span class="title">Home</span>
     </div>
-    <div class="tabbar-item d-flex flex-column">
+    <div class="tabbar-item d-flex flex-column text-secondary">
         <i class="icon bx bx-cart"></i>
         <span class="title">Cart</span>
     </div>
-    <div class="tabbar-item d-flex flex-column">
+    <div class="tabbar-item d-flex flex-column text-secondary">
         <i class="icon bx bx-objects-horizontal-left"></i>
         <span class="title">Orders</span>
     </div>
-    <div class="tabbar-item d-flex flex-column">
+    <div class="tabbar-item d-flex flex-column text-secondary">
         <i class="icon bx bx-user"></i>
         <span class="title">Profile</span>
     </div>
-    <div class="tabbar-item d-flex flex-column">
+    <div class="tabbar-item d-flex flex-column text-secondary">
         <i class="icon bx bx-help-circle"></i>
         <span class="title">Help</span>
     </div>
@@ -28,14 +28,26 @@
 <style>
     .tabbar {
         height: var(--tabbar-height);
-        position: sticky;
         z-index: 10;
         bottom: 0;
         display: flex;
         justify-content: space-around;
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 8px 0;
+        position: fixed;
         align-items: center;
-        padding: 10px;
-        font-size: 18px;
-        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1)
+        background-color: white;
+        box-shadow: 0 0 2px gray;
+    }
+
+    .tabbar-item{
+        justify-content: center;
+        align-items: center;
+    }
+
+    .title{
+        font-size: 14px;
     }
 </style>

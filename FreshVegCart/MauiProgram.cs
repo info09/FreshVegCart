@@ -1,5 +1,7 @@
 ﻿using FreshVegCart.Apis;
+
 using Microsoft.Extensions.Logging;
+
 using Refit;
 
 namespace FreshVegCart
@@ -19,8 +21,8 @@ namespace FreshVegCart
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
             ConfigureRefit(builder.Services);
 
@@ -29,8 +31,8 @@ namespace FreshVegCart
 
         private static void ConfigureRefit(IServiceCollection services)
         {
-            //const string apiBaseUrl = "https://localhost:7001";
-            const string apiBaseUrl = "https://mvgrxdkt-7001.asse.devtunnels.ms";
+            const string apiBaseUrl = "https://localhost:7001";
+            //const string apiBaseUrl = "https://mvgrxdkt-7001.asse.devtunnels.ms";
             services.AddRefitClient<IProductApi>()
                 .ConfigureHttpClient(SetHttpClient);
 
