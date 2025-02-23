@@ -13,6 +13,10 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+body {
+    background-color: #EEE;
+}
+
 .bg-app-lighter {
     background-color: var(--app-lighter);
 }
@@ -52,6 +56,22 @@ html, body {
 .text-app-secondary {
     color: var(--app-secondary);
 }
+
+.btn-app {
+    background-color: var(--app-lighter);
+    padding: 6px 15px;
+    border: none;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+    .btn-app:hover {
+        text-decoration: none;
+        color: white;
+    }
 
 .status-bar-safe-area {
     display: none;
