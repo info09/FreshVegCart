@@ -1,4 +1,5 @@
-﻿@if (Product.Quantity == 0)
+﻿@inject CartService CartService
+@if (Product.Quantity == 0)
 {
     <button type="button" class="btn-app mt-2" @onclick="IncrementQuantity">Add to Cart</button>
 }
@@ -18,6 +19,7 @@ else
     private void IncrementQuantity()
     {
         Product.Quantity++;
+        CartService.IncreaseQuantity(Product);
     }
 
     private void DecrementQuantity()
@@ -26,5 +28,6 @@ else
         {
             Product.Quantity--;
         }
+        CartService.DecreaseQuantity(Product);
     }
 }

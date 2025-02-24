@@ -1,5 +1,5 @@
 ﻿using FreshVegCart.Apis;
-
+using FreshVegCart.Services;
 using Microsoft.Extensions.Logging;
 
 using Refit;
@@ -24,6 +24,9 @@ namespace FreshVegCart
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<CartService>();
+
             ConfigureRefit(builder.Services);
 
             return builder.Build();

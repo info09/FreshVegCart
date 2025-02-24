@@ -18,7 +18,7 @@
                         <label class="product-name d-block fw-bold h5">@item.Name</label>
                         <label class="product-price d-block mt-2">@item.Price.ToString("C")/@item.Unit</label>
                         <div class="mt-2">
-                            <FreshVegCart.Components.Shared.CardButton Product="item" />
+                            <CardButton Product="item" />
                         </div>
                     </div>
                 </div>
@@ -33,16 +33,3 @@
         productDtos = await ProductApi.GetProductsAsync();
     }
 }
-
-<style>
-    .img-container{
-        border-radius: 20px;
-        width: 100px;
-        padding: 5px;
-    }
-
-    .product-img {
-        width: 100%;
-        height: 100%;
-    }
-</style>
