@@ -64,7 +64,7 @@ body {
     color: white;
     font-size: 15px;
     outline: none;
-    border-radius: 8px;
+    border-radius: 5px;
     text-decoration: none;
 }
 
@@ -72,6 +72,36 @@ body {
         text-decoration: none;
         color: white;
     }
+
+.btn-outline-app {
+    background-color: white;
+    padding: 6px 15px;
+    border: 1px solid var(--app-lighter);
+    color: var(--app-lighter);
+    font-size: 15px;
+    outline: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+    .btn-outline-app:hover {
+        text-decoration: none;
+        color: var(--app-lighter);
+    }
+
+.square {
+    width: 34px;
+    height: 34px;
+}
+
+.right-radius-0{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.left-radius-0 {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
 
 .status-bar-safe-area {
     display: none;

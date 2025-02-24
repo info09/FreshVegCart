@@ -1,4 +1,6 @@
-﻿namespace FreshVegCart.Shared.Dto
+﻿using System.Text.Json.Serialization;
+
+namespace FreshVegCart.Shared.Dto
 {
     public class ProductDto
     {
@@ -11,5 +13,8 @@
         public decimal Price { get; set; }
 
         public string Unit { get; set; }
+
+        [JsonIgnore]
+        public int Quantity { get; set; }
     }
 }
