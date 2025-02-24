@@ -13,6 +13,8 @@ namespace FreshVegCart.Services
 
         public event Action? CartCountChanged;
 
+        public decimal TotalAmount => Items.Sum(i => i.Amount);
+
         public void IncreaseQuantity(ProductDto product)
         {
             var cartItem = Items.FirstOrDefault(i => i.ProductId == product.Id);
