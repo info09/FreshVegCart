@@ -1,10 +1,11 @@
-﻿using FreshVegCart.Shared.Dto;
+﻿using FreshVegCart.Data;
+using FreshVegCart.Shared.Dto;
 
 namespace FreshVegCart.Services
 {
     public class CartService
     {
-        public List<ProductDto> Items { get; set; }
+        public List<CartModel> Items { get; set; } = [];
 
         public int Count { get; set; }
 
@@ -12,15 +13,70 @@ namespace FreshVegCart.Services
 
         public event Action? CartCountChanged;
 
-        public void IncreaseQuantity(ProductDto item)
+        public void IncreaseQuantity(ProductDto product)
         {
-            Count++;
-            CartCountChanged?.Invoke();
+            var cartItem = Items.FirstOrDefault(i => i.ProductId == product.Id);
+            if (cartItem is null)
+            {
+                cartItem = CartModel.FromDto(product);
+                Items.Add(cartItem);
+            }
+            else
+            {
+                cartItem.Quantity = product.Quantity;
+            }
+
+            NotifyCountChanged();
         }
 
-        public void DecreaseQuantity(ProductDto item)
+        public void DecreaseQuantity(ProductDto product)
         {
-            Count--;
+            var cartItem = Items.FirstOrDefault(i => i.ProductId == product.Id);
+            if (cartItem is null)
+            {
+                return;
+            }
+            else
+            {
+                cartItem.Quantity = product.Quantity;
+                if (cartItem.Quantity == 0)
+                    Items.Remove(cartItem);
+            }
+            NotifyCountChanged();
+        }
+
+        public void IncreaseCartItemQuantity(CartModel cartItem)
+        {
+            cartItem.Quantity++;
+            NotifyCountChanged();
+        }
+
+        public void DecreaseCartItemQuantity(CartModel cartItem)
+        {
+            cartItem.Quantity--;
+            if (cartItem.Quantity == 0)
+                Items.Remove(cartItem);
+            NotifyCountChanged();
+        }
+
+        public void RemoveCartItem(CartModel cartItem)
+        {
+            Items.Remove(cartItem);
+            NotifyCountChanged();
+        }
+
+        public async Task ClearCartItemAsync()
+        {
+            if (await App.Current.Windows[0].Page.DisplayAlert("Confirm?", "Are you sure, you want to clear the cart?", "Yes", "No"))
+            {
+                Items.Clear();
+                NotifyCountChanged();
+            }
+        }
+
+        private void NotifyCountChanged()
+        {
+            Count = Items.Sum(i => i.Quantity);
             CartCountChanged?.Invoke();
         }
     }

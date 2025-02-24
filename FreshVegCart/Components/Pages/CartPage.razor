@@ -1,8 +1,55 @@
 ﻿@page "/cart"
+@inject CartService CartService
 <SectionContent SectionName="pageTitle">
-    Cart
+    My Cart
 </SectionContent>
+<SectionContent SectionName="toolbarItems">
+    <button type="button" class="btn btn-default btn-sm text-white" @onclick="CartService.ClearCartItemAsync">Clear</button>
+</SectionContent>
+
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var item in CartService.Items) 
+        {
+            <div class="col-12 mb-3 bg-white p-3">
+                <div class="hstack gap-2">
+                    <div class="product-info flex-grow-1 d-flex align-items-center w-100">
+                        <img class="product-img" src="@item.ImageUrl" />
+                        <div class="d-flex flex-column flex-grow-1 ms-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="product-name text-app-dark fw-bold">@item.Name</label>
+                                    <button class="btn-outline-app square right-radius-0" @onclick="() => CartService.IncreaseCartItemQuantity(item)">+</button>
+                                <span class="d-flex align-items-center justify-content-center square bg-app-lighter text-white">@item.Quantity</span>
+                                    <button class="btn-outline-app square left-radius-0" @onclick="() => CartService.DecreaseCartItemQuantity(item)">-</button>
+                            </div>
+                            <hr style="margin: 8px;" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="">@item.Quantity x @item.Price.ToString("C")/@item.Unit</label>
+                                <label class="text-app-dark fw-bold">@item.Amount.ToString("C")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vr"></div>
+                    <div class="delete-btn" @onclick="() => CartService.RemoveCartItem(item)">
+                        <i class="bx bx-sm bx-trash text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 @code {
 
 }
+
+<style>
+    .product-info{}
+    .product-img{
+        height: 40px;
+        width: 40px;
+    }
+    .delete-btn{
+
+    }
+</style>

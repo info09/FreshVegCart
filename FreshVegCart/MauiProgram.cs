@@ -34,8 +34,8 @@ namespace FreshVegCart
 
         private static void ConfigureRefit(IServiceCollection services)
         {
-            const string apiBaseUrl = "https://localhost:7001";
-            //const string apiBaseUrl = "https://mvgrxdkt-7001.asse.devtunnels.ms";
+            //const string apiBaseUrl = "https://localhost:7001";
+            const string apiBaseUrl = "https://mvgrxdkt-7001.asse.devtunnels.ms";
             services.AddRefitClient<IProductApi>()
                 .ConfigureHttpClient(SetHttpClient);
 
