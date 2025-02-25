@@ -2,7 +2,6 @@
 using FreshVegCart.Apis;
 using FreshVegCart.Services;
 using Microsoft.Extensions.Logging;
-
 using Refit;
 
 namespace FreshVegCart
@@ -27,7 +26,7 @@ namespace FreshVegCart
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<CartService>().AddSingleton<AppState>();
+            builder.Services.AddSingleton<CartService>().AddSingleton<AppState>().AddSingleton<AuthState>();
 
             ConfigureRefit(builder.Services);
 
@@ -54,8 +53,11 @@ namespace FreshVegCart
 
             static RefitSettings GetRefitSettings(IServiceProvider sp)
             {
-                var settings = new RefitSettings();
-                settings.AuthorizationHeaderValueGetter = (_, __) => Task.FromResult("TOKEN");
+                var authState = sp.GetRequiredService<AuthState>();
+                var settings = new RefitSettings
+                {
+                    AuthorizationHeaderValueGetter = (_, __) => Task.FromResult(authState.IsLoggedIn ? authState.User!.Token : "")
+                };
                 return settings;
             }
         }

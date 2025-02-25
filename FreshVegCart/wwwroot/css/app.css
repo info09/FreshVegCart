@@ -113,6 +113,10 @@ body {
     background-color: #ffe3de;
 }
 
+.app-entry:focus {
+    background-color: #ffe3de;
+}
+
 .status-bar-safe-area {
     display: none;
 }

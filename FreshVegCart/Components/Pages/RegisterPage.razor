@@ -1,10 +1,13 @@
 ﻿@page "/register"
 @layout AuthLayout
+@inject IAuthApi AuthApi
+@inject AppState AppState
+@inject NavigationManager NavigationManager
 
 <SectionContent SectionName="pageTitle">Register</SectionContent>
 
 <div class="">
-    <EditForm Model="_model">
+    <EditForm Model="_model" OnValidSubmit="RegisterAsync">
         <DataAnnotationsValidator />
         <div class="mb-3">
             <label class="form-label">Name</label>
@@ -42,4 +45,24 @@
 
 @code {
     private RegisterDto _model = new();
+
+    private async Task RegisterAsync()
+    {
+        AppState.ShowLoader();
+        try
+        {
+            var response = await AuthApi.RegisterAsync(_model);
+            if (!response.IsSuccess)
+            {
+                await MauiInterop.AlertAsync("Error", response.ErrorMessage);
+                return;
+            }
+            await MauiInterop.AlertAsync("Success","Registered successfully");
+            NavigationManager.NavigateTo("/login", replace: true);
+        }
+        finally
+        {
+            AppState.HideLoader();
+        }
+    }
 }

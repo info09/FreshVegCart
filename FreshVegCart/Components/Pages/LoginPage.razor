@@ -1,10 +1,14 @@
 ﻿@page "/login"
 @layout AuthLayout
+@inject IAuthApi AuthApi
+@inject AppState AppState
+@inject NavigationManager NavigationManager
+@inject AuthState AuthState
 
 <SectionContent SectionName="pageTitle">Login</SectionContent>
 
 <div class="">
-    <EditForm Model="_model">
+    <EditForm Model="_model" OnValidSubmit="LoginAsync">
         <DataAnnotationsValidator />
         <div class="mb-3">
             <label class="form-label">UserName</label>
@@ -32,4 +36,26 @@
 
 @code {
     private LoginDto _model = new();
+
+    private async Task LoginAsync()
+    {
+        AppState.ShowLoader();
+        try
+        {
+            var response = await AuthApi.LoginAsync(_model);
+            if (!response.IsSuccess)
+            {
+                await MauiInterop.AlertAsync(response.ErrorMessage, "Error");
+                return;
+            }
+
+            // Save UserInfo in LocalStorage
+            AuthState.Login(response.Data);
+            NavigationManager.NavigateTo("/", replace: true);
+        }
+        finally
+        {
+            AppState.HideLoader();
+        }
+    }
 }

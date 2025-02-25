@@ -1,7 +1,11 @@
 ﻿@page "/profile"
+@inject AuthState AuthState
+
 <SectionContent SectionName="pageTitle">
     Profile
 </SectionContent>
+<p>Welcome @AuthState.User?.Name</p>
+
 
 @code {
 
