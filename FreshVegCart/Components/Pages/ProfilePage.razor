@@ -73,7 +73,7 @@
     {
         if (!AuthState.IsLoggedIn)
         {
-            await MauiInterop.AlertAsync("Please login to view profile", "Login required");
+            await MauiInterop.AlertAsync("Login required", "Please login to view profile");
             AuthState.RedirectUrlFromLogin = "/profile";
             NavigationManager.NavigateTo("/login", replace: true);
         }
