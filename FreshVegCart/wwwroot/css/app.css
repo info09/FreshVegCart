@@ -103,6 +103,16 @@ body {
     border-bottom-left-radius: 0;
 }
 
+.form-control:focus{
+    border: 1px solid #ced4da;
+    outline: 0;
+    box-shadow: none;
+}
+
+.app-entry{
+    background-color: #ffe3de;
+}
+
 .status-bar-safe-area {
     display: none;
 }

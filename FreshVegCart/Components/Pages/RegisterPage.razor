@@ -1,0 +1,45 @@
+﻿@page "/register"
+@layout AuthLayout
+
+<SectionContent SectionName="pageTitle">Register</SectionContent>
+
+<div class="">
+    <EditForm Model="_model">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <InputText @bind-Value="_model.Name" class="form-control app-entry" placeholder="Enter name" />
+            <ValidationMessage For="() => _model.Name" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <InputText @bind-Value="_model.Email" class="form-control app-entry" placeholder="Enter email" />
+            <ValidationMessage For="() => _model.Email" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <InputText type="password" @bind-Value="_model.Password" class="form-control app-entry" placeholder="Enter password" />
+            <ValidationMessage For="() => _model.Password" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mobile</label>
+            <InputText @bind-Value="_model.Mobile" class="form-control app-entry" placeholder="Enter mobile" />
+            <ValidationMessage For="() => _model.Mobile" class="text-danger" />
+        </div>
+        <div class="mb-3 d-grid">
+            <button type="submit" class="btn btn-app">Register</button>
+        </div>
+        <div class="my-3 hstack gap-2">
+            <hr style="width: calc(50% - 58px);" />
+            <span style="width: 116px;">Existing User?</span>
+            <hr style="width: calc(50% - 58px);" />
+        </div>
+        <div class="d-grid">
+            <NavLink href="/login" class="btn btn-outline-app">Login</NavLink>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private RegisterDto _model = new();
+}

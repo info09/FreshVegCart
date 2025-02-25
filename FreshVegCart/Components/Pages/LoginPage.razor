@@ -1,6 +1,35 @@
 ﻿@page "/login"
-<h3>LoginPage</h3>
+@layout AuthLayout
+
+<SectionContent SectionName="pageTitle">Login</SectionContent>
+
+<div class="">
+    <EditForm Model="_model">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label class="form-label">UserName</label>
+            <InputText @bind-Value="_model.Username" class="form-control app-entry" placeholder="Enter username" />
+            <ValidationMessage For="() => _model.Username" class="text-danger" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <InputText type="password" @bind-Value="_model.Password" class="form-control app-entry" placeholder="Enter password" />
+            <ValidationMessage For="() => _model.Password" class="text-danger" />
+        </div>
+        <div class="mb-3 d-grid">
+            <button type="submit" class="btn btn-app">Login</button>
+        </div>
+        <div class="my-3 hstack gap-2">
+            <hr style="width: calc(50% - 42px);" />
+            <span style="width: 84px;" class="text-center">New User?</span>
+            <hr style="width: calc(50% - 42px);" />
+        </div>
+        <div class="d-grid">
+            <NavLink href="/register" class="btn btn-outline-app">Register</NavLink>
+        </div>
+    </EditForm>
+</div>
 
 @code {
-
+    private LoginDto _model = new();
 }
