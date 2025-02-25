@@ -51,7 +51,8 @@
 
             // Save UserInfo in LocalStorage
             AuthState.Login(response.Data);
-            NavigationManager.NavigateTo("/", replace: true);
+            NavigationManager.NavigateTo(AuthState.RedirectUrlFromLogin, replace: true);
+            AuthState.RedirectUrlFromLogin = "/";
         }
         finally
         {

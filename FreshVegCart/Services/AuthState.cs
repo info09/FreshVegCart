@@ -5,6 +5,7 @@ namespace FreshVegCart.Services
     public class AuthState
     {
         private const string UserData = "user";
+        public string RedirectUrlFromLogin { get; set; } = "/";
         public LoggedInUser? User { get; set; }
         public bool IsLoggedIn { get; set; }
 
