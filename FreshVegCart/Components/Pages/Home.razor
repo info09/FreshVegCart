@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @inject IProductApi ProductApi
+@inject AppState AppState
 
 <SectionContent SectionName="pageTitle">
     Fresh Veg Cart
@@ -10,18 +11,18 @@
     <div class="row">
         @foreach (var item in productDtos)
         {
-                <div class="col-12 mb-3 bg-white p-3 d-flex gap-3 shadow">
-                    <div class="img-container shadow">
-                        <img src="@item.ImageUrl" alt="@item.Name" class="product-img" />
-                    </div>
-                    <div class="product-info">
-                        <label class="product-name d-block fw-bold h5">@item.Name</label>
-                        <label class="product-price d-block mt-2">@item.Price.ToString("C")/@item.Unit</label>
-                        <div class="mt-2">
-                            <CardButton Product="item" />
-                        </div>
+            <div class="col-12 mb-3 bg-white p-3 d-flex gap-3 shadow">
+                <div class="img-container shadow">
+                    <img src="@item.ImageUrl" alt="@item.Name" class="product-img" />
+                </div>
+                <div class="product-info">
+                    <label class="product-name d-block fw-bold h5">@item.Name</label>
+                    <label class="product-price d-block mt-2">@item.Price.ToString("C")/@item.Unit</label>
+                    <div class="mt-2">
+                        <CardButton Product="item" />
                     </div>
                 </div>
+            </div>
         }
     </div>
 </div>
@@ -30,6 +31,8 @@
     ProductDto[] productDtos = [];
     protected override async Task OnInitializedAsync()
     {
+        AppState.ShowLoader();
         productDtos = await ProductApi.GetProductsAsync();
+        AppState.HideLoader();
     }
 }

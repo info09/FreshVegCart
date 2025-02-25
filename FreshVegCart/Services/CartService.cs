@@ -61,18 +61,23 @@ namespace FreshVegCart.Services
             NotifyCountChanged();
         }
 
-        public void RemoveCartItem(CartModel cartItem)
+        public async Task RemoveCartItem(CartModel cartItem)
         {
             Items.Remove(cartItem);
             NotifyCountChanged();
+            await MauiInterop.ToastAsync("Item removed from cart");
         }
 
         public async Task ClearCartItemAsync()
         {
-            if (await App.Current.Windows[0].Page.DisplayAlert("Confirm?", "Are you sure, you want to clear the cart?", "Yes", "No"))
+            if (Items.Count == 0)
+                return;
+
+            if (await MauiInterop.ConfirmAsync("Confirm?", "Are you sure, you want to clear the cart?"))
             {
                 Items.Clear();
                 NotifyCountChanged();
+                await MauiInterop.ToastAsync("Cart cleared successfully");
             }
         }
 

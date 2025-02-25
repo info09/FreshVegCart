@@ -1,10 +1,13 @@
-﻿namespace FreshVegCart
+﻿using FreshVegCart.Services;
+
+namespace FreshVegCart
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(AppState appState)
         {
             InitializeComponent();
+            BindingContext = appState;
         }
     }
 }

@@ -1,15 +1,20 @@
-﻿namespace FreshVegCart
+﻿using FreshVegCart.Services;
+
+namespace FreshVegCart
 {
     public partial class App : Application
     {
-        public App()
+        private readonly AppState _appState;
+
+        public App(AppState appState)
         {
             InitializeComponent();
+            _appState = appState;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new MainPage()) { Title = "FreshVegCart" };
+            return new Window(new MainPage(_appState)) { Title = "FreshVegCart" };
         }
     }
 }

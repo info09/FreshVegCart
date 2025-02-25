@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="vr"></div>
-                        <div class="delete-btn" @onclick="() => CartService.RemoveCartItem(item)">
+                        <div class="delete-btn" @onclick="async () => await CartService.RemoveCartItem(item)">
                             <i class="bx bx-sm bx-trash text-danger"></i>
                         </div>
                     </div>

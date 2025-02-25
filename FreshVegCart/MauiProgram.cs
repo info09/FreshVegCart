@@ -1,4 +1,5 @@
-﻿using FreshVegCart.Apis;
+﻿using CommunityToolkit.Maui;
+using FreshVegCart.Apis;
 using FreshVegCart.Services;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +17,8 @@ namespace FreshVegCart
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
+                })
+                .UseMauiCommunityToolkit();
 
             builder.Services.AddMauiBlazorWebView();
 
@@ -25,7 +27,7 @@ namespace FreshVegCart
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<CartService>();
+            builder.Services.AddSingleton<CartService>().AddSingleton<AppState>();
 
             ConfigureRefit(builder.Services);
 
