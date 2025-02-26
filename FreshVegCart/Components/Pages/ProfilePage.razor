@@ -20,7 +20,7 @@
         <div class="row bg-white mt-3">
             <div class="col-12">
                 <ul class="list-unstyled">
-                    <li class="p-2 border-bottom d-flex gap-2">
+                    <li class="p-2 border-bottom d-flex gap-3" @onclick="() => _showChangePasswordSheet = true">
                         <i class="bx bx-sm bx-lock text-app-primary"></i>
                         <div class="menu-name flex-grow-1">
                             <label class="text-app-primary">Change Password</label>
@@ -65,10 +65,17 @@
         </div>
     </div>
 }
-
+@if (_showChangePasswordSheet)
+{
+    <BottomSheet Title="Change Password" OnClose="() => _showChangePasswordSheet = false">
+        <p>Change password form</p>
+    </BottomSheet>
+}
 
 
 @code {
+    private bool _showChangePasswordSheet = false;
+
     protected override async Task OnInitializedAsync()
     {
         if (!AuthState.IsLoggedIn)
